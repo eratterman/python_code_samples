@@ -1,0 +1,66 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+{% block IconHeading %}fa fa-stethoscope{% endblock %}
+{% block heading %}<font color="darkslateblue"><strong>Get Insight Jobs Status</strong></font>{% endblock %}
+{% block subheading %}<h4 style="color:darkslateblue">Send the status of Insight jobs to a ticket or print the results to this page.<h4>{% endblock %}
+
+{% block info %}Send Insight job status to a ticket or print to this page{% endblock %}
+
+{% block content %}
+
+{% if form %}
+    {% if form == 'none'%}
+        <h4 style="color:darkslateblue">Please check the ticket</h4>
+
+    {% else %}
+        <form action="" method="post">
+        {{form.hidden_tag()}}
+        <p>
+            <h4 style="color:darkslateblue">Enter a Spark ticket number:</h4>
+            <h6>Optionally you can leave it blank to print output to this page</h6>
+            {{form.ticketnumber}}
+            {% for error in form.errors.ticketnumber %}
+                <span style="color: red;">[{{error}}]</span>
+            {% endfor %}<br>
+        </p>
+        <br>
+        <p>
+            <h4 style="color:darkslateblue">Enter Jobids:</h4>
+            <h6>Can be one jobid or comma separated string of jobids - application will strip out everything else but jobids and commas</h6>
+            {{form.jobids}}
+            {% for error in form.errors.jobids %}
+                <span style="color: red;">[{{error}}]</span>
+            {% endfor %}<br>
+        </p>
+        <br>
+        <p>
+            <h4 style="color:darkslateblue">Do you want a detailed status or simple status?</h4>
+            <h6>Simple status displays only jobid, status, and last status display message whereas detailed status shows so much more!</h6>
+            {{form.simplestatus}}
+            {% for error in form.errors.simplestatus %}
+                <span style="color: red;">[{{error}}]</span>
+            {% endfor %}<br>
+        </p>
+
+        <p>
+            <h4 style="color:darkslateblue">Is this for job status mismatch tickets?</h4>
+            <h6>Job status mismatch shows both the jobs queue status and the arb status</h6>
+            {{form.mismatch}}
+            {% for error in form.errors.mismatch %}
+                <span style="color: red;">[{{error}}]</span>
+            {% endfor %}
+        </p>
+
+        <p><input class="btn btn-primary" type="submit" value="Get Job Status"onClick="this.value='Processing...';this.disabled=true;this.form.submit();if(Submitting()){this.form.submit()}else{this.value='Get Job Status';this.disabled=false;}"/></p>
+        </form>
+    {% endif %}
+{% else %}
+    <h4 style="color:darkslateblue">Copy and Paste into a spark ticket:</h4>
+    {% autoescape off %}
+        {% for line in message %}
+            {{ line }}
+        {% endfor %}
+    {% endautoescape %}
+
+{% endif %}
+{% endblock %}

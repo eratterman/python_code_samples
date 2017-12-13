@@ -1,0 +1,33 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+{% block IconHeading %}fa fa-cog{% endblock %}
+{% block heading %}<font color="darkslateblue"><strong>Mark Logic Jobid From Global Jobid</strong></font>{% endblock %}
+{% block subheading %}<h4 style="color: darkslateblue;">Enter a global jobid and get the Mark Logic jobid(s) returned.<h4>{% endblock %}
+
+{% block info %}Returns the Mark Logic jobid(s) for a given global jobid.{% endblock %}
+
+{% block content %}
+
+{% if form %}
+<form action="" method="post">
+    {{form.hidden_tag()}}
+    <p>
+        <h4 style="color: darkslateblue;">Enter the global jobid:</h4>
+        {{form.global_jobid}}
+        {% for error in form.errors.global_jobid %}
+            <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <br>
+
+    <p><input class="btn btn-primary" type="submit" value="Get Mark Logic Jobid"onClick="this.value='Processing...';this.disabled=true;this.form.submit();if(Submitting()){this.form.submit()}else{this.value='Get Mark Logic Jobid';this.disabled=false;}"/></p>
+</form>
+{% else %}
+    <h4 style="color: darkslateblue;">Mark Logic Jobid(s): </h4>
+    {% autoescape off %}
+        {% for data in ml_jobdata %}
+            {{ data }}
+        {% endfor %}
+    {% endautoescape %}
+{% endif %}
+{% endblock %}
